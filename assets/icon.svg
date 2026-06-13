@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Causerie icon">
+  <rect width="128" height="128" rx="32" fill="#1f3d33"/>
+  <path d="M31 75c0-24 15-42 37-42 12 0 22 5 29 13l-13 12c-4-5-9-8-16-8-11 0-19 10-19 25s8 25 19 25c8 0 14-4 18-10l13 11c-7 10-18 16-32 16-21 0-36-18-36-42Z" fill="#f6d36b"/>
+  <circle cx="93" cy="35" r="8" fill="#e95f45"/>
+</svg>

@@ -1,0 +1,16 @@
+{
+  "name": "Causerie",
+  "short_name": "Causerie",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff8df",
+  "theme_color": "#f6d36b",
+  "icons": [
+    {
+      "src": "/assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
