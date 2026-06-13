@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Mobile-first MVP for Causerie, an AI French speaking partner.",
   "scripts": {
+    "build": "node scripts/build-static.mjs",
     "start": "node server.mjs",
     "test": "node --test tests/*.test.mjs"
   },

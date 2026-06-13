@@ -81,6 +81,18 @@ Causerie running at http://127.0.0.1:4173
 
 Leave this terminal window open while using the app.
 
+## Optional: Check the Production Build
+
+This is useful before deploying to Vercel.
+
+Run:
+
+```bash
+npm run build
+```
+
+This creates a `dist` folder with the files Vercel should publish.
+
 ## Step 5: Open Causerie in Your Browser
 
 Open this link in your browser:
