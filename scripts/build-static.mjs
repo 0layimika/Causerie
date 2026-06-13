@@ -1,5 +1,7 @@
 import { cp, mkdir, rm } from 'node:fs/promises';
 
+const outputDir = process.argv.includes('--public') ? 'public' : 'dist';
+
 const files = [
   'index.html',
   'styles.css',
@@ -8,11 +10,11 @@ const files = [
   'src'
 ];
 
-await rm('dist', { recursive: true, force: true });
-await mkdir('dist', { recursive: true });
+await rm(outputDir, { recursive: true, force: true });
+await mkdir(outputDir, { recursive: true });
 
 for (const file of files) {
-  await cp(file, `dist/${file}`, { recursive: true });
+  await cp(file, `${outputDir}/${file}`, { recursive: true });
 }
 
-console.log('Built static app into dist/');
+console.log(`Built static app into ${outputDir}/`);

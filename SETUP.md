@@ -93,6 +93,14 @@ npm run build
 
 This creates a `dist` folder with the files Vercel should publish.
 
+For the exact Vercel output folder, run:
+
+```bash
+npm run build:public
+```
+
+This creates a `public` folder, which Vercel serves from the website root.
+
 ## Step 5: Open Causerie in Your Browser
 
 Open this link in your browser:
