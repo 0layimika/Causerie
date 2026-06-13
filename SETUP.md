@@ -65,18 +65,28 @@ cd Causerie
 
 Tip: On Mac, you can also type `cd `, drag the folder into the terminal window, and press Enter.
 
-## Step 4: Start the App
+## Step 4: Install the App Dependencies
+
+Run this once inside the project folder:
+
+```bash
+npm install
+```
+
+This downloads the tools the app needs, including Next.js.
+
+## Step 5: Start the App
 
 Run:
 
 ```bash
-npm start
+npm run dev
 ```
 
 You should see something like:
 
 ```text
-Causerie running at http://127.0.0.1:4173
+Local: http://localhost:3000
 ```
 
 Leave this terminal window open while using the app.
@@ -91,21 +101,13 @@ Run:
 npm run build
 ```
 
-This creates a `dist` folder with the files Vercel should publish.
+This checks that the Next.js production build works before deploying.
 
-For the exact Vercel output folder, run:
-
-```bash
-npm run build:public
-```
-
-This creates a `public` folder, which Vercel serves from the website root.
-
-## Step 5: Open Causerie in Your Browser
+## Step 6: Open Causerie in Your Browser
 
 Open this link in your browser:
 
-[http://127.0.0.1:4173](http://127.0.0.1:4173)
+[http://localhost:3000](http://localhost:3000)
 
 You should now see the Causerie home screen.
 
@@ -146,22 +148,22 @@ The app will stop running locally.
 
 ## Troubleshooting
 
-### `npm start` says command not found
+### `npm run dev` says command not found
 
-Node.js may not be installed correctly. Install Node.js from [https://nodejs.org](https://nodejs.org), then restart your terminal.
+Node.js may not be installed correctly, or `npm install` has not been run yet.
 
 ### The page does not open
 
 Make sure the terminal still says:
 
 ```text
-Causerie running at http://127.0.0.1:4173
+Local: http://localhost:3000
 ```
 
 If not, run:
 
 ```bash
-npm start
+npm run dev
 ```
 
 again from inside the project folder.

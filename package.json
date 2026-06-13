@@ -5,10 +5,15 @@
   "type": "module",
   "description": "Mobile-first MVP for Causerie, an AI French speaking partner.",
   "scripts": {
-    "build": "node scripts/build-static.mjs",
-    "build:public": "node scripts/build-static.mjs --public",
-    "start": "node server.mjs",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   },
   "engines": {
     "node": ">=20"

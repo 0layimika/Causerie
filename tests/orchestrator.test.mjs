@@ -1,15 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { LOOP_STATES } from '../app/config.js';
-import { createLearner } from '../app/learnerModel.js';
-import { createTelemetry } from '../app/telemetry.js';
+import { LOOP_STATES } from '../lib/config.js';
+import { createLearner } from '../lib/learnerModel.js';
+import { createTelemetry } from '../lib/telemetry.js';
 import {
   completeConversation,
   createConversation,
   handleSilence,
   startConversation,
   submitLearnerTurn
-} from '../app/orchestrator.js';
+} from '../lib/orchestrator.js';
 
 test('conversation starts with AI opener and reaches Listening', () => {
   const learner = createLearner();

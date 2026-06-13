@@ -1,3 +1,4 @@
 dist/
-public/
+.next/
+node_modules/
 .DS_Store
