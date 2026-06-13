@@ -7,7 +7,7 @@ const files = [
   'styles.css',
   'manifest.webmanifest',
   'assets',
-  'src'
+  'app'
 ];
 
 await rm(outputDir, { recursive: true, force: true });

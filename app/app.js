@@ -64,7 +64,7 @@ window.addEventListener('hashchange', render);
 window.addEventListener('beforeunload', persist);
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/src/serviceWorker.js').catch(() => {});
+  navigator.serviceWorker.register('/app/serviceWorker.js').catch(() => {});
 }
 
 render();

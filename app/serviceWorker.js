@@ -5,17 +5,17 @@ const ASSETS = [
   '/styles.css',
   '/manifest.webmanifest',
   '/assets/icon.svg',
-  '/src/app.js',
-  '/src/antiDeadEnd.js',
-  '/src/config.js',
-  '/src/debrief.js',
-  '/src/learnerModel.js',
-  '/src/orchestrator.js',
-  '/src/scenarios.js',
-  '/src/speechLayer.js',
-  '/src/storage.js',
-  '/src/telemetry.js',
-  '/src/utils.js'
+  '/app/app.js',
+  '/app/antiDeadEnd.js',
+  '/app/config.js',
+  '/app/debrief.js',
+  '/app/learnerModel.js',
+  '/app/orchestrator.js',
+  '/app/scenarios.js',
+  '/app/speechLayer.js',
+  '/app/storage.js',
+  '/app/telemetry.js',
+  '/app/utils.js'
 ];
 
 self.addEventListener('install', (event) => {

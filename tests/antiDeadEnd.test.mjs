@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detectDeadEnd, getEscalation, getSilenceTimeout, nextRung } from '../src/antiDeadEnd.js';
+import { detectDeadEnd, getEscalation, getSilenceTimeout, nextRung } from '../app/antiDeadEnd.js';
 
 test('uses level-scaled silence thresholds', () => {
   assert.equal(getSilenceTimeout('A1'), 7000);
