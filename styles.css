@@ -391,6 +391,25 @@ textarea {
   padding: 16px;
 }
 
+.voice-picker {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.voice-picker select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  padding: 0 14px;
+  font-weight: 800;
+}
+
 .mic-button {
   width: 58px;
   height: 58px;

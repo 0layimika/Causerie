@@ -24,6 +24,8 @@ const state = {
   conversations: persisted?.conversations || [],
   activeConversation: persisted?.activeConversation || null,
   lastDebrief: persisted?.lastDebrief || null,
+  selectedVoiceURI: persisted?.selectedVoiceURI || '',
+  voices: [],
   telemetry: createTelemetry(persisted?.events || []),
   onboarding: {
     persona: 'immigration',
@@ -44,9 +46,23 @@ const speech = new BrowserSpeechLayer({
       renderConversation();
     }
   },
-  onError: () => toast('Voice input is unavailable here, so text fallback is ready.'),
-  onEnd: () => {}
+  onError: (reason) => toast(micErrorMessage(reason)),
+  onEnd: () => {},
+  onVoicesChanged: (voices) => {
+    state.voices = voices;
+    if (!state.selectedVoiceURI && voices.length) {
+      const preferred = voices.find((voice) => voice.lang?.toLowerCase() === 'fr-fr') || voices[0];
+      state.selectedVoiceURI = preferred.voiceURI;
+      speech.setVoice(state.selectedVoiceURI);
+      persist();
+    } else {
+      speech.setVoice(state.selectedVoiceURI);
+    }
+    if (state.activeConversation) renderConversation();
+  }
 });
+
+speech.setVoice(state.selectedVoiceURI);
 
 deleteButton.addEventListener('click', () => {
   if (!confirm('Delete local Causerie data on this device?')) return;
@@ -270,6 +286,12 @@ function renderConversation() {
           <span><span class="state-dot ${listening ? 'listening' : ''}"></span> ${escapeHtml(conversation.state)}</span>
           <small>${Math.round(getSilenceTimeout(state.learner.effective_level) / 1000)}s freeze guard</small>
         </div>
+        <label class="voice-picker">
+          <span>Causerie voice</span>
+          <select id="voice-select" ${state.voices.length ? '' : 'disabled'}>
+            ${voiceOptions()}
+          </select>
+        </label>
         <div class="input-row">
           <textarea id="turn-input" placeholder="Type your French if voice is unavailable. Example: Je voudrais ouvrir un compte."></textarea>
           <button class="mic-button" type="button" aria-label="Speak French" aria-pressed="false" data-action="mic">Mic</button>
@@ -293,6 +315,12 @@ function renderConversation() {
   app.querySelector('[data-action="end-conversation"]').addEventListener('click', endConversation);
   app.querySelector('[data-action="replay"]').addEventListener('click', replayLastAI);
   app.querySelector('[data-action="mic"]').addEventListener('click', toggleMic);
+  app.querySelector('#voice-select')?.addEventListener('change', (event) => {
+    state.selectedVoiceURI = event.target.value;
+    speech.setVoice(state.selectedVoiceURI);
+    persist();
+    replayLastAI();
+  });
 }
 
 function beginConversation(scenarioId) {
@@ -420,14 +448,19 @@ function renderDebrief() {
   app.querySelector('[data-action="next-rep"]').addEventListener('click', () => beginConversation(pickStarterScenario(state.learner).id));
 }
 
-function toggleMic(event) {
+async function toggleMic(event) {
   speech.bargeIn();
-  const started = speech.start();
+  const button = event.currentTarget;
+  button.disabled = true;
+  button.textContent = 'Allow';
+  const started = await speech.start();
+  button.disabled = false;
+  button.textContent = 'Mic';
   if (!started) {
-    toast('Voice input is not available in this browser. Text fallback is ready.');
+    button.setAttribute('aria-pressed', 'false');
     return;
   }
-  event.currentTarget.setAttribute('aria-pressed', 'true');
+  button.setAttribute('aria-pressed', 'true');
 }
 
 function replayLastAI() {
@@ -437,7 +470,20 @@ function replayLastAI() {
 
 function speakAI(text) {
   if (!text) return;
+  speech.setVoice(state.selectedVoiceURI);
   speech.speak(text);
+}
+
+function voiceOptions() {
+  if (!state.voices.length) {
+    return '<option>No browser voices found yet</option>';
+  }
+
+  return state.voices.map((voice) => `
+    <option value="${escapeHtml(voice.voiceURI)}" ${voice.voiceURI === state.selectedVoiceURI ? 'selected' : ''}>
+      ${escapeHtml(voice.name)} (${escapeHtml(voice.lang || 'unknown')})
+    </option>
+  `).join('');
 }
 
 function scenarioCard(scenario, recommended) {
@@ -484,6 +530,21 @@ function persist() {
     conversations: state.conversations,
     activeConversation: state.activeConversation,
     lastDebrief: state.lastDebrief,
+    selectedVoiceURI: state.selectedVoiceURI,
     events: state.telemetry.events
   });
+}
+
+function micErrorMessage(reason) {
+  const messages = {
+    insecure_context: 'Microphone access needs HTTPS or localhost. On Vercel HTTPS is fine; locally use localhost/127.0.0.1.',
+    get_user_media_unavailable: 'This browser cannot request microphone access. Try Chrome or Edge.',
+    NotAllowedError: 'Microphone permission was blocked. Allow mic access in your browser settings and try again.',
+    NotFoundError: 'No microphone device was found on this computer.',
+    NotReadableError: 'Your microphone is busy in another app. Close that app and try again.',
+    speech_recognition_unavailable: 'Mic access worked, but this browser does not support speech recognition. Try Chrome, or use text fallback.',
+    speech_start_failed: 'The browser could not start voice recognition. Try again or use text fallback.'
+  };
+
+  return messages[reason] || 'Voice input could not start. Try allowing microphone access, or use text fallback.';
 }
